@@ -1,0 +1,24 @@
+# Source: cluster-api-aws/templates/machine-pool.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSMachinePool
+metadata:
+  name: cimwgkuk7-mp-taco
+  namespace: cimwgkuk7
+spec:
+  awsLaunchTemplate:
+    instanceType: t3.2xlarge
+    sshKeyName: tks-seoul
+    iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
+    rootVolume:
+      size: 200
+      type: gp2
+  maxSize: 16
+  minSize: 1
+  subnets:
+  - filters:
+    - name: "tag:sigs.k8s.io/cluster-api-provider-aws/role"
+      values:
+      - "private"
+    - name: "tag:Name"
+      values:
+      - "*cimwgkuk7*"
